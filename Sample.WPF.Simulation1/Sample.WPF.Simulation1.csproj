@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="AlertOff.png" />
+    <None Remove="AlertOn.png" />
+    <None Remove="Assets\AlertOff.png" />
+    <None Remove="Assets\AlertOn.png" />
+    <None Remove="Assets\Pause.png" />
+    <None Remove="Assets\Play.png" />
+    <None Remove="Assets\PowerOff.png" />
+    <None Remove="Assets\PowerOn.png" />
+    <None Remove="Assets\Product.png" />
+    <None Remove="PowerOff.png" />
+    <None Remove="Product.png" />
+    <None Remove="Views\PowerOn.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="AlertOff.png" />
+    <Resource Include="AlertOn.png" />
+    <Resource Include="Assets\AlertOn.png" />
+    <Resource Include="Assets\AlertOff.png" />
+    <Resource Include="Assets\Pause.png" />
+    <Resource Include="Assets\Play.png" />
+    <Resource Include="Assets\PowerOff.png" />
+    <Resource Include="Assets\PowerOn.png" />
+    <Resource Include="Assets\Product.png" />
+    <Resource Include="PowerOff.png" />
+    <Resource Include="Product.png" />
+    <Resource Include="Views\PowerOn.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gpio.Driver.Simulator\Gpio.Driver.Simulator.csproj" />
+  </ItemGroup>
+
+</Project>
