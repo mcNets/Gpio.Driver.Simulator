@@ -9,7 +9,40 @@ GpioDriverSimulator driver = new GpioDriverSimulator();
 GpioController controller = new GpioController(PinNumberingScheme.Logical, driver);
 ```
 
-### Numbering schema
+### Simulating an external device
+
+Have a look at [Sample.WPF.Simulation1](https://github.com/mcNets/Gpio.Driver.Simulator/tree/master/Sample.WPF.Simulation1) project
+
+![image](https://user-images.githubusercontent.com/24267381/154931900-b3c4515a-f6a4-406e-a4f8-7d73c49606c0.png)
+
+---
+
+### Writing input signals
+
+You can write input signals by using the ***WritInPin*** method of the driver class.
+
+```c#
+/// <summary>
+/// <see cref="System.Device.Gpio.GpioController"/> allows to read output pins but
+/// it doesn't allow to write input pins. For the sake of the simulator this method
+/// can be used for that purpose. Any event handler associated to this pin is called.
+/// Controller is needed just to use the same numbering scheme.
+/// </summary>
+/// <param name="controller">A <see cref="System.Device.Gpio.GpioController"/> object</param>
+/// <param name="pinNumber">Pin number.</param>
+/// <param name="value"><see cref="PinValue"/> to be set.</param>
+public void WriteInPin(GpioController controller, int pinNumber, PinValue value)
+{
+    int pinIn = (controller.NumberingScheme == PinNumberingScheme.Logical) ?
+        pinNumber : ConvertPinNumberToLogicalNumberingScheme(pinNumber);
+            
+    Write(pinIn, value);
+}
+```
+
+--- 
+
+### Personalized numbering schema
 
 By default the class implements the same numbering schema as the Raspberri Pi 3/4. But you can define a personalized schema by adding your own **NumberToLogicalConverter** method to the constructor. Have a look at [Sample.Console.CustomNumbering](https://github.com/mcNets/Gpio.Driver.Simulator/blob/master/Sample.Console.CustomNumbering/Program.cs) example.
 
