@@ -19,7 +19,7 @@ External device can be simulated by software, [Sample.WPF.Simulation1](https://g
 
 ### Writing input signals
 
-Contrary to the Gpio.Controller, you can write input signals by using the ***WritInPin*** method of the driver class. In this case a reference to the controller is required to use the same numbering schema.
+Contrary to the Gpio.Controller, you can write input signals by using the ***WriteInPin*** method of the driver class. In this case a reference to the controller is required to use the same numbering schema.
 
 ```c#
 
