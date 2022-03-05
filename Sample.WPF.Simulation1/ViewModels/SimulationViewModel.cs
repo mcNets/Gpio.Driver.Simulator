@@ -13,7 +13,9 @@ namespace Sample.WPF.Simulation1.ViewModels
     internal class SimulationViewModel : INotifyPropertyChanged
     {
         private readonly IoDeviceService _ioService;
-        private readonly GpioDriverSimulator? _ioDriver; 
+        private readonly GpioDriverSimulator? _ioDriver;
+
+        #region Constructor
 
         public SimulationViewModel(IoDeviceService ioService)
         {
@@ -42,8 +44,10 @@ namespace Sample.WPF.Simulation1.ViewModels
             };
         }
 
+        #endregion
+
         #region Private members
-        
+
         private bool _power = false;
         private bool _cncProgram = false;
         private int _secondsPiece = 5;
@@ -51,7 +55,6 @@ namespace Sample.WPF.Simulation1.ViewModels
         private DispatcherTimer _timer;
 
         #endregion
-
 
         #region Public properties
 
@@ -129,14 +132,12 @@ namespace Sample.WPF.Simulation1.ViewModels
 
         #endregion
 
-
         #region Commands
 
         public ICommand PowerOnOffCommand { get; set; }
         public ICommand CNCRunningCommand { get; set; }
 
         #endregion
-
 
         #region NotifyPropertyChange
 

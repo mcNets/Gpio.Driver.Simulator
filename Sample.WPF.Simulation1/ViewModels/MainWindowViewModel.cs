@@ -13,22 +13,24 @@ namespace Sample.WPF.Simulation1.ViewModels
     {
         private readonly IoDeviceService _ioService;
 
+        #region Constructor
+
         public MainWindowViewModel(IoDeviceService ioService)
         {
             _ioService = ioService;
 
             AlertOnOffCommand = new AlertOnOffCommand(this);
 
-            // When Power signal raises
-            _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.Power, PinEventTypes.Rising | PinEventTypes.Falling, (s,e) => 
+            // When Power signal changes
+            _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.Power, PinEventTypes.Rising | PinEventTypes.Falling, (s, e) =>
             {
                 Power = (e.ChangeType == PinEventTypes.Rising) ? true : false;
             });
 
             // When NewUnit signal raises
-            _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.NewUnit, PinEventTypes.Rising, (s,e) => Units++ );
+            _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.NewUnit, PinEventTypes.Rising, (s, e) => NewUnit++);
 
-            // When CNC program run raises
+            // When CNC program run signal changes
             _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.Run, PinEventTypes.Rising | PinEventTypes.Falling, (s, e) =>
             {
                 CNCProgramRunning = (e.ChangeType == PinEventTypes.Rising) ? true : false;
@@ -37,18 +39,20 @@ namespace Sample.WPF.Simulation1.ViewModels
             // Timer to simulate production.
             _timer = new DispatcherTimer()
             {
-                Interval = new TimeSpan(0, 0, 1), 
+                Interval = new TimeSpan(0, 0, 1),
                 IsEnabled = false
             };
 
             _timer.Tick += (s, e) => ValTimer = (ValTimer < 20) ? ValTimer + 1 : 1;
 
         }
-        
+
+        #endregion
+
         #region Private members
 
         private bool _power = false;
-        private int _units = 0;
+        private int _newUnit = 0;
         private bool _cncProgramRunning = false;
         private bool _alert = false;
         private string _runningStatus = "Stopped";
@@ -56,24 +60,26 @@ namespace Sample.WPF.Simulation1.ViewModels
         private int _valTimer;
 
         #endregion
-        
+
+        #region Public properties
+
         public bool Power
         {
             get => _power;
             set
-            {   
+            {
                 _power = value;
                 OnPropertyChanged(nameof(Power));
             }
         }
 
-        public int Units
+        public int NewUnit
         {
-            get => _units;
+            get => _newUnit;
             set
             {
-                _units = value;
-                OnPropertyChanged(nameof(Units));
+                _newUnit = value;
+                OnPropertyChanged(nameof(NewUnit));
             }
         }
 
@@ -91,7 +97,7 @@ namespace Sample.WPF.Simulation1.ViewModels
                 }
             }
         }
-        
+
         public bool Alert
         {
             get => _alert;
@@ -133,13 +139,15 @@ namespace Sample.WPF.Simulation1.ViewModels
             }
         }
 
+        #endregion
+
         #region Commands
 
         public ICommand AlertOnOffCommand { get; set; }
 
         #endregion
 
-        #region NotifyPropertyChange
+        #region NotifyPropertyChanged
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

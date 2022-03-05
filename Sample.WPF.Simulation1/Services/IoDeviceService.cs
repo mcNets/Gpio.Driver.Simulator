@@ -1,5 +1,4 @@
 ﻿using System.Device.Gpio;
-using Gpio.Driver.Simulator;
 
 namespace Sample.WPF.Simulation1.Services
 {

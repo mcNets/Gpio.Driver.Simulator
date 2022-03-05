@@ -7,18 +7,25 @@ namespace Gpio.Driver.Simulator
 {
     public class GpioDriverSimulator : GpioDriver
     {
-        private int _maxNumPins;
-        private readonly PinState?[] _pinModes;
+        private readonly int _maxNumPins;
         private readonly Func<int, int>? _numberToLogicalConverter;
 
+        private readonly PinState?[] _pinModes;
+
         /// <summary>
-        /// Constructor
-        /// Set the maximum number of pins allowed and initilize the dictionary
+        /// Creates an instance of the GpioDriverSimulator
+        /// This driver allows you to simulate a Raspberry Pi by default, but you can change the pin numbering
+        /// by providing a NumberToLogicalConverter function and the number of pins.
         /// </summary>
-        /// <param name="maxNumPins">Maximum number of pins. (28 by default)</param>
-        /// <param name="numberToLogicalConverter"><see cref="Func<int,int>"/> supplied by the user to convert pin number to logical</param>
-        public GpioDriverSimulator(int maxNumPins = 28, Func<int, int>? numberToLogicalConverter=null)
+        /// <param name="maxNumPins">Maximum number of pins (28 by default)</param>
+        /// <param name="numberToLogicalConverter">Number to logical converter function (null by default)</param>
+        public GpioDriverSimulator(int maxNumPins = 28, Func<int, int>? numberToLogicalConverter = null)
         {
+            if (maxNumPins <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maxNumPins));
+            }
+
             _maxNumPins = maxNumPins;
             _pinModes = new PinState[PinCount];
             _numberToLogicalConverter = numberToLogicalConverter;
@@ -38,7 +45,7 @@ namespace Gpio.Driver.Simulator
         protected override void SetPinMode(int pinNumber, PinMode mode)
         {
             ValidatePinNumber(pinNumber);
-            
+
             if (!IsPinModeSupported(pinNumber, mode))
             {
                 throw new InvalidOperationException($"The pin {pinNumber} does not support the selected mode {mode}.");
@@ -137,9 +144,11 @@ namespace Gpio.Driver.Simulator
             ValidatePinNumber(pinNumber);
 
             if (_pinModes[pinNumber] is null)
+            {
                 throw new ArgumentNullException(nameof(_pinModes), "_pinNodes cannot have null value.");
+            }
 
-            return _pinModes[pinNumber].Value;
+            return _pinModes[pinNumber]!.Value;
         }
 
         /// <inheritdoc/>
@@ -148,11 +157,18 @@ namespace Gpio.Driver.Simulator
             ValidatePinNumber(pinNumber);
 
             if (_pinModes[pinNumber] is null)
+            {
                 throw new ArgumentNullException(nameof(_pinModes), "_pinNodes cannot have null value.");
+            }
 
-            _pinModes[pinNumber].Value = value;
+            _pinModes[pinNumber]!.Value = value;
         }
 
+        /// <summary>
+        /// Validates the PIN number
+        /// </summary>
+        /// <param name="pinNumber">Pin number</param>
+        /// <exception cref="ArgumentException">Throws a <see cref="ArgumentException"/> if an invalid pin number is used.</exception>
         private void ValidatePinNumber(int pinNumber)
         {
             if (pinNumber < 0 || pinNumber >= PinCount)
@@ -167,10 +183,12 @@ namespace Gpio.Driver.Simulator
             ValidatePinNumber(pinNumber);
 
             if (_pinModes[pinNumber] is null)
+            {
                 throw new ArgumentNullException(nameof(_pinModes), "_pinNodes cannot have null value.");
+            }
 
-            _pinModes[pinNumber].EventTypes = eventTypes;
-            _pinModes[pinNumber].ChangeEventHandler += callback;
+            _pinModes[pinNumber]!.EventTypes = eventTypes;
+            _pinModes[pinNumber]!.ChangeEventHandler += callback;
         }
 
         /// <inheritdoc/>
@@ -179,17 +197,19 @@ namespace Gpio.Driver.Simulator
             ValidatePinNumber(pinNumber);
 
             if (_pinModes[pinNumber] is null)
+            {
                 throw new ArgumentNullException(nameof(_pinModes), "_pinNodes cannot have null value.");
+            }
 
-            _pinModes[pinNumber].EventTypes = PinEventTypes.None;
-            _pinModes[pinNumber].ChangeEventHandler -= callback;
+            _pinModes[pinNumber]!.EventTypes = PinEventTypes.None;
+            _pinModes[pinNumber]!.ChangeEventHandler -= callback;
         }
 
         /// <inheritdoc/>
         protected override WaitForEventResult WaitForEvent(int pinNumber, PinEventTypes eventTypes, CancellationToken cancellationToken)
         {
             ValidatePinNumber(pinNumber);
-            var currentValue = _pinModes[pinNumber].Value;
+            var currentValue = _pinModes[pinNumber]!.Value;
 
             WaitForEventResult result = new WaitForEventResult()
             {
@@ -197,17 +217,18 @@ namespace Gpio.Driver.Simulator
                 TimedOut = false,
             };
 
-            while(!cancellationToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                if (_pinModes[pinNumber].Value != currentValue)
+                if (_pinModes[pinNumber]!.Value != currentValue)
                 {
-                    if ((_pinModes[pinNumber].Value == PinValue.Low && eventTypes.HasFlag(PinEventTypes.Falling))
-                        || 
-                        (_pinModes[pinNumber].Value == PinValue.High && eventTypes.HasFlag(PinEventTypes.Rising)))
+                    if ((_pinModes[pinNumber]!.Value == PinValue.Low && eventTypes.HasFlag(PinEventTypes.Falling))
+                        ||
+                        (_pinModes[pinNumber]!.Value == PinValue.High && eventTypes.HasFlag(PinEventTypes.Rising)))
                     {
                         return result;
                     }
-                    currentValue = _pinModes[pinNumber].Value;
+
+                    currentValue = _pinModes[pinNumber]!.Value;
                 }
             }
 
@@ -218,28 +239,31 @@ namespace Gpio.Driver.Simulator
         protected override async ValueTask<WaitForEventResult> WaitForEventAsync(int pinNumber, PinEventTypes eventTypes, CancellationToken cancellationToken)
         {
             ValidatePinNumber(pinNumber);
-            var currentValue = _pinModes[pinNumber].Value;
+            var currentValue = _pinModes[pinNumber]!.Value;
 
             return await Task.Run(() => WaitForEvent(pinNumber, eventTypes, cancellationToken));
         }
 
         /// <summary>
-        /// <see cref="System.Device.Gpio.GpioController"/> allows to read output pins but
+        /// <see cref="GpioController"/> allows to read output pins but
         /// it doesn't allow to write input pins. For the sake of the simulator this method
         /// can be used for that purpose. Any event handler associated to this pin is called.
-        /// Controller is needed just to use the same numbering scheme.
+        /// Controller is needed just to use the same numbering scheme type.
         /// </summary>
-        /// <param name="controller">A <see cref="System.Device.Gpio.GpioController"/> object</param>
+        /// <param name="controller">A <see cref="GpioController"/> object</param>
         /// <param name="pinNumber">Pin number.</param>
         /// <param name="value"><see cref="PinValue"/> to be set.</param>
         public void WriteInPin(GpioController controller, int pinNumber, PinValue value)
         {
             int pinIn = (controller.NumberingScheme == PinNumberingScheme.Logical) ?
                 pinNumber : ConvertPinNumberToLogicalNumberingScheme(pinNumber);
-            
+
             Write(pinIn, value);
         }
 
+        /// <summary>
+        /// Keeps pins state
+        /// </summary>
         private class PinState
         {
             private PinValue _value;
@@ -259,9 +283,9 @@ namespace Gpio.Driver.Simulator
 
             public PinEventTypes EventTypes { get; set; }
 
-            public PinValue Value 
+            public PinValue Value
             {
-                get { return _value; }
+                get => _value;
                 set
                 {
                     if (value != _value)
