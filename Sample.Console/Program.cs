@@ -19,7 +19,7 @@ namespace Sample.Console
             WriteLine("GPIO Driver Simulator - Sample.Console\n");
             ForegroundColor = _defaultColor;
 
-            GpioDriverSimulator driver = new GpioDriverSimulator();
+            VirtualGpioDriver driver = new VirtualGpioDriver();
 
             GpioController controller = new GpioController(PinNumberingScheme.Board, driver);
             WriteLine($"Numbering scheme: {controller.NumberingScheme}\n");

@@ -21,7 +21,7 @@ namespace Sample.Console.LedBlink
             WriteLine("GPIO Driver Simulator - Sample.Console.LedBlink\n");
             ForegroundColor = _defaultColor;
 
-            GpioDriverSimulator driver = new GpioDriverSimulator();
+            VirtualGpioDriver driver = new VirtualGpioDriver();
 
             GpioController controller = new GpioController(PinNumberingScheme.Logical, driver);
 

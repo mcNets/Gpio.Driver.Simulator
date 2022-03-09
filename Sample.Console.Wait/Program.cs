@@ -21,7 +21,7 @@ namespace Sample.Console.Wait
             WriteLine("GPIO Driver Simulator - Sample.Console.Wait\n");
             ForegroundColor = _defaultColor;
 
-            GpioDriverSimulator driver = new GpioDriverSimulator();
+            VirtualGpioDriver driver = new VirtualGpioDriver();
 
             GpioController controller = new GpioController(PinNumberingScheme.Logical, driver);
 

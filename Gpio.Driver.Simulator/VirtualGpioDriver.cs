@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Gpio.Driver.Simulator
 {
-    public class GpioDriverSimulator : GpioDriver
+    public class VirtualGpioDriver : GpioDriver
     {
         private readonly int _maxNumPins;
         private readonly Func<int, int>? _numberToLogicalConverter;
@@ -19,7 +19,7 @@ namespace Gpio.Driver.Simulator
         /// </summary>
         /// <param name="maxNumPins">Maximum number of pins (28 by default)</param>
         /// <param name="numberToLogicalConverter">Number to logical converter function (null by default)</param>
-        public GpioDriverSimulator(int maxNumPins = 28, Func<int, int>? numberToLogicalConverter = null)
+        public VirtualGpioDriver(int maxNumPins = 28, Func<int, int>? numberToLogicalConverter = null)
         {
             if (maxNumPins <= 0)
             {

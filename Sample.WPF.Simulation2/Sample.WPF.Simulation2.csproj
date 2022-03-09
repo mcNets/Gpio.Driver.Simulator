@@ -8,7 +8,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\AlertOff.png" />
+    <None Remove="Assets\AlertOn.png" />
+    <None Remove="Assets\Pause.png" />
+    <None Remove="Assets\Play.png" />
+    <None Remove="Assets\PowerOff.png" />
+    <None Remove="Assets\PowerOn.png" />
+    <None Remove="Assets\Product.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Gpio.Driver.Simulator\Gpio.Driver.Simulator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\AlertOff.png" />
+    <Resource Include="Assets\AlertOn.png" />
+    <Resource Include="Assets\Pause.png" />
+    <Resource Include="Assets\Play.png" />
+    <Resource Include="Assets\PowerOff.png" />
+    <Resource Include="Assets\PowerOn.png" />
+    <Resource Include="Assets\Product.png" />
   </ItemGroup>
 
 </Project>

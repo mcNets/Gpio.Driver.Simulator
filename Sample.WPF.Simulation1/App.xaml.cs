@@ -16,7 +16,7 @@ namespace Sample.WPF.Simulation1
         {
             base.OnStartup(e);
 
-            GpioDriverSimulator driver = new GpioDriverSimulator();
+            VirtualGpioDriver driver = new VirtualGpioDriver();
             GpioController controller = new GpioController(PinNumberingScheme.Logical, driver);
 
             _ioService = new IoDeviceService(controller, driver);

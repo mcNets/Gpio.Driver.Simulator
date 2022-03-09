@@ -13,14 +13,14 @@ namespace Sample.WPF.Simulation1.ViewModels
     internal class SimulationViewModel : INotifyPropertyChanged
     {
         private readonly IoDeviceService _ioService;
-        private readonly GpioDriverSimulator? _ioDriver;
+        private readonly VirtualGpioDriver? _ioDriver;
 
         #region Constructor
 
         public SimulationViewModel(IoDeviceService ioService)
         {
             _ioService = ioService;
-            _ioDriver = ioService.Driver as GpioDriverSimulator;
+            _ioDriver = ioService.Driver as VirtualGpioDriver;
 
             PowerOnOffCommand = new PowerOnOffCommand(this);
             CNCRunningCommand = new CNCRunningCommand(this);
