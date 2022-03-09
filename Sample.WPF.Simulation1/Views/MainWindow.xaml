@@ -394,7 +394,7 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center">
                     <TextBlock
-                        Text="{Binding Units, StringFormat=Production: {0} units}"
+                        Text="{Binding NewUnit, StringFormat=Production: {0} units}"
                         VerticalAlignment="Center"
                         Foreground="#fdbc5b" />
                 </StackPanel>

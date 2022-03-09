@@ -1,0 +1,24 @@
+{
+  "signals": [
+    {
+      "name": "PowerON",
+      "pin": "24",
+      "type": "input"
+    },
+    {
+      "name": "CNC Running",
+      "pin": "18",
+      "type": "input"
+    },
+    {
+      "name": "Counter",
+      "pin": "36",
+      "type": "input"
+    },
+    {
+      "name": "Alert",
+      "pin": "23",
+      "type": "output"
+    }
+  ]
+}
