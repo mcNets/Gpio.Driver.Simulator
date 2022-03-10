@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sample.WPF.Simulation2"
+        xmlns:convert="clr-namespace:Sample.WPF.Simulation2.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Height="250" 
+        Width="400"
+        Foreground="White"
+        Background="#1c1c1c">
 
     <Window.Resources>
         <convert:PowerToImageConverter x:Key="PowerToImageConverter" />

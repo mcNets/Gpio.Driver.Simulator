@@ -1,11 +1,6 @@
 ﻿using Gpio.Driver.Simulator;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+using Sample.WPF.Simulation2.Services;
 using System.Device.Gpio;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Sample.WPF.Simulation2
@@ -15,44 +10,37 @@ namespace Sample.WPF.Simulation2
     /// </summary>
     public partial class App : Application
     {
+        IoDeviceService? _ioService;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            /*
-            IoDeviceService? _ioService;
-        
-            protected override void OnStartup(StartupEventArgs e)
-            {
-                base.OnStartup(e);
+            VirtualGpioDriver driver = new VirtualGpioDriver();
 
-                VirtualGpioDriver driver = new VirtualGpioDriver();
-                GpioController controller = new GpioController(PinNumberingScheme.Logical, driver);
+            GpioController controller = new GpioController(PinNumberingScheme.Logical, driver);
 
-                _ioService = new IoDeviceService(controller, driver);
-                _ioService.Configure();
+            _ioService = new IoDeviceService(controller, driver);
+            _ioService.Configure();
 
-                MainWindow mainWindow = new MainWindow(_ioService);
-                mainWindow.Show();
+            MainWindow mainWnd = new MainWindow(_ioService);
+            mainWnd.Show();
 
-                SimulatorWindow simulatorWindow = new SimulatorWindow(_ioService);
-                simulatorWindow.Show();
-            }
-            */
+            //
+            // Set-up a virtual scenario that can be shared by all virtual managers (UWP, WPF, ...)
+            //
+            VirtualIOScenario ioScenario = VirtualIOScenario
+                                            .Create(controller, driver)
+                                            .Add("Power", IOPins.Power, VirtualPinType.Input)
+                                            .Add("CNC Program", IOPins.Run, VirtualPinType.Input)
+                                            .Add("Production", IOPins.NewUnit, VirtualPinType.Counter)
+                                            .Add("Stop Alert", IOPins.Alert, VirtualPinType.Output);
 
-
-            MainWindow wnd = new MainWindow();
-            wnd.Show();
-
-            VirtualIOSignals ioSignals = new VirtualIOSignals();
-            ioSignals.Add("Power", "24", "input");
-            ioSignals.Add("CNC Program", "18", "input");
-            ioSignals.Add("Production", "18", "counter");
-            ioSignals.Add("Alert Msg", "26", "output");
-
-            VirtualIOSimulatorControls ioBuilder = new VirtualIOSimulatorControls(ioSignals);
-            ioBuilder.BuildWindow();
+            //
+            // Virtual manager for WPF apps
+            //
+            VirtualIOWpfManager ioManager = new VirtualIOWpfManager(ioScenario);
+            ioManager.Run();
         }
     }
 

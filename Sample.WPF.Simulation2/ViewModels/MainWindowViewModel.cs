@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sample.WPF.Simulation2.Commands;
+using Sample.WPF.Simulation2.Services;
+using System;
 using System.ComponentModel;
 using System.Device.Gpio;
 using System.Runtime.CompilerServices;
@@ -26,12 +28,21 @@ namespace Sample.WPF.Simulation2.ViewModels
             });
 
             // When NewUnit signal raises
-            _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.NewUnit, PinEventTypes.Rising, (s, e) => NewUnit++);
+            _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.NewUnit, PinEventTypes.Rising, (s, e) =>
+            {
+                if (Power && CNCProgramRunning)
+                {
+                    NewUnit++;
+                }
+            });
 
             // When CNC program run signal changes
             _ioService.Controller.RegisterCallbackForPinValueChangedEvent(IOPins.Run, PinEventTypes.Rising | PinEventTypes.Falling, (s, e) =>
             {
-                CNCProgramRunning = (e.ChangeType == PinEventTypes.Rising) ? true : false;
+                if (Power)
+                {
+                    CNCProgramRunning = (e.ChangeType == PinEventTypes.Rising) ? true : false;
+                }
             });
 
             // Timer to simulate production.

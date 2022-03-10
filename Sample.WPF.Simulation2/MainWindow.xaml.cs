@@ -1,5 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using Sample.WPF.Simulation2.Services;
+using Sample.WPF.Simulation2.ViewModels;
+using System.Windows;
 
 namespace Sample.WPF.Simulation2
 {
@@ -8,10 +9,14 @@ namespace Sample.WPF.Simulation2
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IoDeviceService _ioService;
+
+        public MainWindow(IoDeviceService ioService)
         {
             InitializeComponent();
-            StackPanel pan = new StackPanel();
+
+            _ioService = ioService;
+            DataContext = new MainWindowViewModel(_ioService);
         }
     }
 }

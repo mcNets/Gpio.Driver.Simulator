@@ -169,7 +169,7 @@ namespace Gpio.Driver.Simulator
         /// </summary>
         /// <param name="pinNumber">Pin number</param>
         /// <exception cref="ArgumentException">Throws a <see cref="ArgumentException"/> if an invalid pin number is used.</exception>
-        private void ValidatePinNumber(int pinNumber)
+        public void ValidatePinNumber(int pinNumber)
         {
             if (pinNumber < 0 || pinNumber >= PinCount)
             {
