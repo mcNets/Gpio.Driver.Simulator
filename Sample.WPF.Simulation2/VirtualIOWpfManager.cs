@@ -196,7 +196,7 @@ namespace Sample.WPF.Simulation2
                 await Task.Factory.StartNew(() =>
                 {
                     _scenario.Driver.WriteInPin(_scenario.Controller, signal!.PinNumber, PinValue.High);
-                    Thread.Sleep(300);
+                    Thread.Sleep(200);
                     _scenario.Driver.WriteInPin(_scenario.Controller, signal!.PinNumber, PinValue.Low);
                 });
 
