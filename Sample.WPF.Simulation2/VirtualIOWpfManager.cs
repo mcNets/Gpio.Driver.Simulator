@@ -45,7 +45,7 @@ namespace Sample.WPF.Simulation2
                         _scenario.Driver.WriteInPin(_scenario.Controller, counter!.PinNumber, PinValue.Low);
                     });
 
-                    (counter.Control as TextBlock)!.Text = $"{counter?.Name}";
+                    (counter!.Control as TextBlock)!.Text = $"{counter?.Name}";
                 }
             };
         }

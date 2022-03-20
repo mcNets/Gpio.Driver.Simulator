@@ -27,7 +27,7 @@ namespace Sample.WPF.Simulation2
             mainWnd.Show();
 
             //
-            // Set-up a virtual scenario that can be shared by all virtual managers (UWP, WPF, ...)
+            // Set-up a virtual scenario that can be shared by all virtual managers (UWP, WPF, WinUI, WinForms)
             //
             VirtualIOScenario ioScenario = VirtualIOScenario
                                             .Create(controller, driver)
@@ -37,7 +37,7 @@ namespace Sample.WPF.Simulation2
                                             .Add("Stop Alert", IOPins.Alert, VirtualPinType.Output);
 
             //
-            // Virtual manager for WPF apps
+            // Virtual manager window for WPF apps
             //
             VirtualIOWpfManager ioManager = new VirtualIOWpfManager(ioScenario);
             ioManager.Run();
