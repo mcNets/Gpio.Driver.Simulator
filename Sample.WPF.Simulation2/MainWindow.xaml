@@ -240,6 +240,8 @@
     <Border Padding="15"
             BorderThickness="1"
             BorderBrush="#FF707070"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
             Margin="10">
 
         <Grid>

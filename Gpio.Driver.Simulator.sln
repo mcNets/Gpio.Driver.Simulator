@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Console.LedBlink", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.WPF.Simulation1", "Sample.WPF.Simulation1\Sample.WPF.Simulation1.csproj", "{D07C355E-F5D2-4221-8AB6-9D95DDC75856}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WPF.Simulation2", "Sample.WPF.Simulation2\Sample.WPF.Simulation2.csproj", "{CC083434-CC2A-4EBD-B51C-307484836C0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.WPF.Simulation2", "Sample.WPF.Simulation2\Sample.WPF.Simulation2.csproj", "{CC083434-CC2A-4EBD-B51C-307484836C0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

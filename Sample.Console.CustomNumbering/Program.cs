@@ -61,7 +61,7 @@ namespace Sample.Console.CustomNumbering
                 WriteLine($"Pin {_led1} status is {controller.Read(_led1)}\n");
 
                 ForegroundColor = ConsoleColor.Green;
-                WriteLine($"Setting pin {_led1} to Hight...");
+                WriteLine($"Setting pin {_led1} to High...");
                 ForegroundColor = _defaultColor;
                 controller.Write(_led1, PinValue.High);
                 WriteLine($"Pin {_led1} status is {controller.Read(_led1)}\n");

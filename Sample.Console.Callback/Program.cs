@@ -29,7 +29,7 @@ namespace Sample.Console.Callback
                 controller.RegisterCallbackForPinValueChangedEvent(_led1, PinEventTypes.Rising | PinEventTypes.Falling, LedHasChanged);
                 WriteLine($"Pin {_led1} status is {controller.Read(_led1)}\n");
 
-                WriteLine($"Setting pin {_led1} to Hight...");
+                WriteLine($"Setting pin {_led1} to High...");
                 controller.Write(_led1, PinValue.High);
                 WriteLine($"Setting pin {_led1} to Low...");
                 controller.Write(_led1, PinValue.Low);

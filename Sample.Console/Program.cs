@@ -39,14 +39,14 @@ namespace Sample.Console
 
                 // Using controller.Write(PinNumber, PinValue)
                 ForegroundColor = ConsoleColor.Green;
-                WriteLine($"Setting pin {_led1} to Hight...");
+                WriteLine($"Setting pin {_led1} to High...");
                 ForegroundColor = _defaultColor;
                 controller.Write(_led1, PinValue.High);
                 WriteLine($"Pin {_led1} status is {controller.Read(_led1)}\n");
 
                 // Using driver.WriteInPin(controller, PinNumber, PinValue)
                 ForegroundColor = ConsoleColor.Green;
-                WriteLine($"Setting pin {_led2} to Hight...");
+                WriteLine($"Setting pin {_led2} to High...");
                 ForegroundColor = _defaultColor;
                 driver.WriteInPin(controller, _led2, PinValue.High);
                 WriteLine($"Pin {_led2} status is {controller.Read(_led2)}\n");

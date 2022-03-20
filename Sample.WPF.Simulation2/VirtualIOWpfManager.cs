@@ -26,12 +26,14 @@ namespace Sample.WPF.Simulation2
             _scenario = scenario;
             _counters = new List<VirtualIOPin>();
 
+            // Dispatch timer used by automatic counters
             _timer = new DispatcherTimer()
             {
                 Interval = new TimeSpan(0, 0, 3),
                 IsEnabled = false
             };
 
+            // Every time the clock tiks, puts the counter signals high for 200 ms
             _timer.Tick += async (sender, e) =>
             {
                 foreach (var counter in _counters!)
@@ -41,7 +43,7 @@ namespace Sample.WPF.Simulation2
                     await Task.Factory.StartNew(() =>
                     {
                         _scenario.Driver.WriteInPin(_scenario.Controller, counter!.PinNumber, PinValue.High);
-                        Thread.Sleep(300);
+                        Thread.Sleep(200);
                         _scenario.Driver.WriteInPin(_scenario.Controller, counter!.PinNumber, PinValue.Low);
                     });
 
@@ -52,7 +54,12 @@ namespace Sample.WPF.Simulation2
 
         public Window Run()
         {
-            var wnd = new Window() { Width=200.0 };
+            var wnd = new Window() 
+            { 
+                Width=200.0,
+                Background = new SolidColorBrush(Color.FromRgb(13, 17, 23)),
+                Foreground = new SolidColorBrush(Colors.White),
+            };
             wnd.Content = WindowContent();
             wnd.Show();
 
@@ -121,7 +128,7 @@ namespace Sample.WPF.Simulation2
                 Margin = new Thickness(0, 0, 0, 15),
             };
 
-            // Puts the signal Hight
+            // Puts the signal High
             bt.Checked += (s, e) =>
             {
                 var signal = ((ToggleButton)s).Tag as VirtualIOPin;
@@ -180,7 +187,7 @@ namespace Sample.WPF.Simulation2
                 Margin = new Thickness(0, 0, 0, 15),
             };
 
-            // Puts the signal Hight for 300 ms
+            // Puts the signal High for 300 ms
             bt.Click += async (s, e) =>
             {
                 var signal = ((Button)s).Tag as VirtualIOPin;
@@ -207,7 +214,7 @@ namespace Sample.WPF.Simulation2
             {
                 Text = $"{signal.Name}",
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
                 Padding = new Thickness(10),
                 Margin = new Thickness(0, 0, 0, 15),
                 Foreground = Brushes.White,
